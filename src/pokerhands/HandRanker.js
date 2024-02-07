@@ -15,10 +15,10 @@ export const CARD_RANKS = {
 };
 
 export const SUITES = {
-  SPADES: "spades",
-  DIAMONDS: "diamonds",
-  CLUBS: "clubs",
-  HEARTS: "hearts",
+  SPADES: "Spades",
+  DIAMONDS: "Diamonds",
+  CLUBS: "Clubs",
+  HEARTS: "Hearts",
 };
 
 export const HAND_STRENGTH = {

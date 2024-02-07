@@ -1,9 +1,10 @@
 import {CARD_RANKS, SUITES} from "pokerhands/HandRanker";
 
 function createDeck() {
+
   // Convert suites and labels to arrays appropriately
   const suits = Object.keys(SUITES).map(key => SUITES[key]);
-  const labels = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+  const labels = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
   const rank = Object.keys(CARD_RANKS).map(key => CARD_RANKS[key]);
 
   // Generate a new deck by combining each label with each suite
