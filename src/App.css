@@ -21,6 +21,11 @@
   align-items: center; /* Aligns children centrally */
 }
 
+.card:hover {
+  transform: scale(1.1); /* Adjust scale factor for desired size increase */
+  z-index: 10; /* Ensure enlarged card is above others */
+}
+
 button {
   margin: 0.5em;
   padding: 10px 20px;
