@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css';
-// Ensure that hooks are properly imported. The following paths are just placeholders and must reflect your actual project structure.
 import { useDeck } from "./hooks/useDeck";
 import { useHandRanker } from "./hooks/useHandRanker";
 
 function App() {
   const [deck, hand, shuffleDeck, deal] = useDeck();
   const [handRank, rankHand] = useHandRanker();
+  const [gameStarted, setGameStarted] = useState(false);
+
+  const handleStartGame = () => {
+    setGameStarted(true);
+    shuffleDeck();
+  };
+
+  if (!gameStarted) {
+    return (
+      <div className="App">
+        <div className="start-game-screen">
+          <button onClick={handleStartGame}>Start Game</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="App">
       <div className="game-area">
         <div className="welcome-banner">Welcome to Poker Hands!</div>
-        <Deck deck={deck}/>
-        <Hand hand={hand}/>
-        <HandRank handRank={handRank}/>
+        <Deck deck={deck} />
+        <Hand hand={hand} />
+        <HandRank handRank={handRank} />
         <div className="controls">
-          <button onClick={shuffleDeck}>Create Deck</button>
+          <button onClick={shuffleDeck}>Shuffle Deck</button>
           <button onClick={deal}>Deal</button>
           <button onClick={() => rankHand(hand)}>Rank Hand</button>
         </div>
@@ -59,20 +74,22 @@ function HandRank({handRank}) {
   );
 }
 
-function Card({card}) {
-  if (!card) return null;
-  const suitSymbols = {
-    diamonds: '♦️',
-    clubs: '♣️',
-    hearts: '♥️',
-    spades: '♠️',
-  };
+function Card({ card }) {
+  const calculateBackgroundPosition = () => {
+
+    const suitOrder = ['clubs', 'diamonds', 'hearts', 'spades'];
+    const valueOrder = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
   
-  const suitColor = ['diamonds', 'hearts'].includes(card.suite) ? 'red' : 'black';
+    const cardValueIndex = valueOrder.indexOf(card.label); 
+    const suitIndex = suitOrder.indexOf(card.suite.toLowerCase());
+
+    const cardIndexInSprite = (suitIndex * valueOrder.length + cardValueIndex) * -150; 
+
+    return `${cardIndexInSprite}px center`;
+  };
+
   return (
-    <div className={`card ${suitColor}`}>
-      {card.label} {suitSymbols[card.suite]}
-    </div>
+    <div className="card" style={{ backgroundPosition: calculateBackgroundPosition() }}></div>
   );
 }
 

@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   font-family: 'Arial', sans-serif;
-  background-image: url('/pokerbg.jpg'); /* Ensure correct path */
+  background-image: url('/pokerbg.jpg');
   background-size: cover;
   color: #fff;
   min-height: 100vh;
@@ -11,27 +11,23 @@
   justify-content: center;
 }
 
-.game-area {
-  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+.game-area, .start-game-screen {
+  background-color: rgba(0, 0, 0, 0.6);
   padding: 20px;
   border-radius: 20px;
   margin: 20px;
   display: inline-block;
 }
 
-.controls {
-  margin-top: 20px;
-}
-
 button {
   margin: 0 10px;
   padding: 10px 20px;
-  background-color: #007bff; /* Bootstrap primary blue */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s;
 }
 
 button:hover {
@@ -39,21 +35,24 @@ button:hover {
 }
 
 .card {
-  display: inline-block;
-  margin: 5px;
-  padding: 10px 20px;
+  box-sizing: border-box;  
+  width: 150px;
+  height: 214px;
+  margin:10px;
+  float: left;  
+  background-color: white;
+  background-image: url('https://i.imgur.com/yKggR5N.png');
+  background-position-x: 0px;
+  background-position-y: center;
+  background-repeat: none;
+  background-position: middle center;  
+  border: 1px #555555 solid;
   border-radius: 10px;
-  background-color: #fff;
-  color: #333;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  font-size: 20px;
-}
+    -webkit-box-shadow: 2px 2px 3px 0px #000000; 
+  box-shadow: 2px 2px 3px 0px #000000; 
+  }
 
-.card.red {
-  color: #d42727;
-}
-
-.deck-info, .hand-info, .hand-rank-info {
+.deck-info, .hand-info, .hand-rank-info, .start-game-screen {
   color: #fff;
   margin: 20px 0;
 }
@@ -62,15 +61,14 @@ button:hover {
   color: #ccc;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  .game-area {
+  .game-area, .start-game-screen {
     width: 90%;
     padding: 10px;
   }
 
   .card {
-    padding: 8px 15px;
-    font-size: 16px;
+    width: 55px;
+    height: 74px;
   }
 }
