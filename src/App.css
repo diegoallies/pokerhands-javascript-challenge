@@ -12,26 +12,28 @@
 }
 
 .game-area, .start-game-screen {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7); /* Slightly darker for better readability */
+  padding: 30px;  /* Increased padding */
   border-radius: 20px;
-  margin: 20px;
-  display: inline-block;
+  margin: 2em;
+  display: flex;
+  flex-direction: column; /* Changed for better layout control */
+  align-items: center; /* Aligns children centrally */
 }
 
 button {
-  margin: 0 10px;
+  margin: 0.5em;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #4CAF50; /* Greener, more inviting color */
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-weight: bold; /* Make text bold */
 }
 
-button:hover {
-  background-color: #0056b3;
+button:hover, button:focus {
+  background-color: #45a049; /* Darker shade on hover/focus */
 }
 
 .card {
@@ -54,11 +56,19 @@ button:hover {
 
 .deck-info, .hand-info, .hand-rank-info, .start-game-screen {
   color: #fff;
-  margin: 20px 0;
+  margin: 1em 0;
+  text-align: center; /* Center-align text */
 }
 
 .placeholder {
   color: #ccc;
+}
+
+.winner-announcement {
+  margin-top: 20px;
+  font-size: 1.5em; /* Larger font for emphasis */
+  font-weight: bold;
+  color: #FFFF00; /* Bright color for visibility */
 }
 
 @media (max-width: 768px) {
@@ -68,7 +78,11 @@ button:hover {
   }
 
   .card {
-    width: 55px;
+    width: 55px; /* Adjust sizes for mobile */
     height: 74px;
+  }
+
+  .hand-info, .deck-info {
+    flex-direction: column; /* Stack on smaller screens for better readability */
   }
 }
