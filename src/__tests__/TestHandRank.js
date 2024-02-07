@@ -9,11 +9,11 @@ it('test invalid hand', () => {
 
 it('test high card', () => {
   const hand = [
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '3', suite: 'diamonds', rank: 3 },
-    { label: '6', suite: 'clubs', rank: 6 },
-    { label: '8', suite: 'hearts', rank: 8 },
-    { label: 'A', suite: 'spades', rank: 14 }
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '3', suite: 'Diamonds', rank: 3 },
+    { label: '6', suite: 'Clubs', rank: 6 },
+    { label: '8', suite: 'Hearts', rank: 8 },
+    { label: 'Ace', suite: 'Spades', rank: 14 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.highCard)
@@ -22,11 +22,11 @@ it('test high card', () => {
 
 it('test one pair', () => {
   const hand = [
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '2', suite: 'diamonds', rank: 2 },
-    { label: '6', suite: 'clubs', rank: 6 },
-    { label: '8', suite: 'hearts', rank: 8 },
-    { label: 'A', suite: 'spades', rank: 14 }
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '2', suite: 'Diamonds', rank: 2 },
+    { label: '6', suite: 'Clubs', rank: 6 },
+    { label: '8', suite: 'Hearts', rank: 8 },
+    { label: 'Ace', suite: 'Spades', rank: 14 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.onePair)
@@ -35,11 +35,11 @@ it('test one pair', () => {
 
 it('test two pair', () => {
   const hand = [
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '2', suite: 'diamonds', rank: 2 },
-    { label: '6', suite: 'clubs', rank: 6 },
-    { label: '6', suite: 'hearts', rank: 6 },
-    { label: 'A', suite: 'spades', rank: 14 }
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '2', suite: 'Diamonds', rank: 2 },
+    { label: '6', suite: 'Clubs', rank: 6 },
+    { label: '6', suite: 'Hearts', rank: 6 },
+    { label: 'Ace', suite: 'Spades', rank: 14 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.twoPair)
@@ -48,11 +48,11 @@ it('test two pair', () => {
 
 it('test three of a kind', () => {
   const hand = [
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '8', suite: 'diamonds', rank: 8 },
-    { label: '8', suite: 'clubs', rank: 8 },
-    { label: '8', suite: 'hearts', rank: 8 },
-    { label: 'A', suite: 'spades', rank: 14 }
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '8', suite: 'Diamonds', rank: 8 },
+    { label: '8', suite: 'Clubs', rank: 8 },
+    { label: '8', suite: 'Hearts', rank: 8 },
+    { label: 'Ace', suite: 'Spades', rank: 14 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.threeOfAKind)
@@ -61,11 +61,11 @@ it('test three of a kind', () => {
 
 it('test straight', () => {
   const hand = [
-    { label: '5', suite: 'spades', rank: 5 },
-    { label: '6', suite: 'diamonds', rank: 6 },
-    { label: '7', suite: 'clubs', rank: 7 },
-    { label: '8', suite: 'spades', rank: 8 },
-    { label: '9', suite: 'hearts', rank: 9 }
+    { label: '5', suite: 'Spades', rank: 5 },
+    { label: '6', suite: 'Diamonds', rank: 6 },
+    { label: '7', suite: 'Clubs', rank: 7 },
+    { label: '8', suite: 'Spades', rank: 8 },
+    { label: '9', suite: 'Hearts', rank: 9 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.straight)
@@ -74,24 +74,24 @@ it('test straight', () => {
 
 it('test straight ace low', () => {
   const hand = [
-    { label: 'A', suite: 'spades', rank: 14 },
-    { label: '2', suite: 'diamonds', rank: 2 },
-    { label: '3', suite: 'clubs', rank: 3 },
-    { label: '4', suite: 'spades', rank: 4 },
-    { label: '5', suite: 'hearts', rank: 5 }
-  ]
-  const handRank = rankHand(hand)
-  expect(handRank.handStrength).toBe(HAND_STRENGTH.straight)
-  expect(handRank.description).toBe("Straight, A high")
-})
+    { label: 'Ace', suite: 'Spades', rank: 14 },
+    { label: '2', suite: 'Diamonds', rank: 2 },
+    { label: '3', suite: 'Clubs', rank: 3 },
+    { label: '4', suite: 'Spades', rank: 4 },
+    { label: '5', suite: 'Hearts', rank: 5 }
+  ];
+  const handRank = rankHand(hand);
+  expect(handRank.handStrength).toBe(HAND_STRENGTH.straight);
+  expect(handRank.description).toBe("Straight, 5 high"); // Adjust expectation to "5 high"
+});
 
 it('test flush', () => {
   const hand = [
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '3', suite: 'spades', rank: 3 },
-    { label: '6', suite: 'spades', rank: 6 },
-    { label: '8', suite: 'spades', rank: 8 },
-    { label: 'A', suite: 'spades', rank: 14 }
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '3', suite: 'Spades', rank: 3 },
+    { label: '6', suite: 'Spades', rank: 6 },
+    { label: '8', suite: 'Spades', rank: 8 },
+    { label: 'Ace', suite: 'Spades', rank: 14 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.flush)
@@ -101,11 +101,11 @@ it('test flush', () => {
 
 it('test full house', () => {
   const hand = [
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '2', suite: 'diamonds', rank: 2 },
-    { label: '6', suite: 'clubs', rank: 6 },
-    { label: '6', suite: 'hearts', rank: 6 },
-    { label: '6', suite: 'spades', rank: 6 }
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '2', suite: 'Diamonds', rank: 2 },
+    { label: '6', suite: 'Clubs', rank: 6 },
+    { label: '6', suite: 'Hearts', rank: 6 },
+    { label: '6', suite: 'Spades', rank: 6 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.fullHouse)
@@ -114,11 +114,11 @@ it('test full house', () => {
 
 it('test four of a kind', () => {
   const hand = [
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '2', suite: 'diamonds', rank: 2 },
-    { label: '2', suite: 'clubs', rank: 2 },
-    { label: '2', suite: 'hearts', rank: 2 },
-    { label: 'A', suite: 'spades', rank: 14 }
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '2', suite: 'Diamonds', rank: 2 },
+    { label: '2', suite: 'Clubs', rank: 2 },
+    { label: '2', suite: 'Hearts', rank: 2 },
+    { label: 'Ace', suite: 'Spades', rank: 14 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.fourOfAKind)
@@ -127,11 +127,11 @@ it('test four of a kind', () => {
 
 it('test straight flush', () => {
   const hand = [
-    { label: '5', suite: 'spades', rank: 5 },
-    { label: '6', suite: 'spades', rank: 6 },
-    { label: '7', suite: 'spades', rank: 7 },
-    { label: '8', suite: 'spades', rank: 8 },
-    { label: '9', suite: 'spades', rank: 9 }
+    { label: '5', suite: 'Spades', rank: 5 },
+    { label: '6', suite: 'Spades', rank: 6 },
+    { label: '7', suite: 'Spades', rank: 7 },
+    { label: '8', suite: 'Spades', rank: 8 },
+    { label: '9', suite: 'Spades', rank: 9 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.straightFlush)
@@ -140,11 +140,11 @@ it('test straight flush', () => {
 
 it('test straight flush ace low', () => {
   const hand = [
-    { label: 'A', suite: 'spades', rank: 14 },
-    { label: '2', suite: 'spades', rank: 2 },
-    { label: '3', suite: 'spades', rank: 3 },
-    { label: '4', suite: 'spades', rank: 4 },
-    { label: '5', suite: 'spades', rank: 5 }
+    { label: 'Ace', suite: 'Spades', rank: 14 },
+    { label: '2', suite: 'Spades', rank: 2 },
+    { label: '3', suite: 'Spades', rank: 3 },
+    { label: '4', suite: 'Spades', rank: 4 },
+    { label: '5', suite: 'Spades', rank: 5 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.straightFlush)
@@ -153,13 +153,13 @@ it('test straight flush ace low', () => {
 
 it('test royal flush', () => {
   const hand = [
-    { label: '10', suite: 'diamonds', rank: 10 },
-    { label: 'J', suite: 'diamonds', rank: 11 },
-    { label: 'Q', suite: 'diamonds', rank: 12 },
-    { label: 'K', suite: 'diamonds', rank: 13 },
-    { label: 'A', suite: 'diamonds', rank: 14 }
+    { label: '10', suite: 'Diamonds', rank: 10 },
+    { label: 'J', suite: 'Diamonds', rank: 11 },
+    { label: 'Q', suite: 'Diamonds', rank: 12 },
+    { label: 'K', suite: 'Diamonds', rank: 13 },
+    { label: 'Ace', suite: 'Diamonds', rank: 14 }
   ]
   const handRank = rankHand(hand)
   expect(handRank.handStrength).toBe(HAND_STRENGTH.royalFlush)
-  expect(handRank.description).toBe("Royal flush of diamonds")
+  expect(handRank.description).toBe("Royal flush of Diamonds")
 })

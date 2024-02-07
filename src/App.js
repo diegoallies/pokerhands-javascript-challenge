@@ -33,7 +33,7 @@ function App() {
         <Hand hand={hand} />
         <HandRank handRank={handRank} />
         <div className="controls">
-          <button onClick={shuffleDeck}>Shuffle Deck</button>
+          <button onClick={shuffleDeck}>Create Deck</button>
           <button onClick={deal}>Deal</button>
           <button onClick={() => rankHand(hand)}>Rank Hand</button>
         </div>

@@ -4,6 +4,6 @@ import App from './App';
 
 test('renders create deck button', () => {
   render(<App />);
-  const element = screen.getByText(/Create deck/i);
+  const element = screen.getByText(/Start Game/i);
   expect(element).toBeInTheDocument();
 });

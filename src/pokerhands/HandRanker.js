@@ -35,86 +35,101 @@ export const HAND_STRENGTH = {
 };
 
 function evaluateHand(hand) {
-  // No need to rely on an external CARD_RANKS mapping as rank is already part of the card object
+  if (!hand || hand.length !== 5) throw new Error("Invalid hand");
+
   hand.sort((a, b) => a.rank - b.rank);
 
-  // Check if all cards are of the same suite
   const isFlush = hand.every(card => card.suite === hand[0].suite);
-  
-  // Check for a straight. The Ace can either play high or low; this simple check assumes Ace is always high.
-  const isStraight = hand.every((card, index, arr) => {
-    return index === 0 || card.rank - arr[index - 1].rank === 1;
-  }) || (hand[0].rank === 2 && hand[4].rank === 14); // Special Case: Five-high Straight ("Wheel") with an Ace
 
-  // Tally the rank occurrences
-  const rankCounts = hand.reduce((acc, {rank}) => {
-    acc[rank] = (acc[rank] || 0) + 1;
-    return acc;
+  // Handling for regular and Ace-low straights
+  let isStraight = hand.every((_, i, arr) => i === 0 || arr[i].rank === arr[i - 1].rank + 1);
+  // Special handling for an Ace-low straight (A-2-3-4-5)
+  const aceLowRanks = [2, 3, 4, 5, 14];
+  let isAceLowStraight = hand.map(card => card.rank).every((rank, index) => rank === aceLowRanks[index]);
+  if (isAceLowStraight) {
+      isStraight = true;
+  }
+
+  let rankCounts = hand.reduce((acc, card) => {
+      acc[card.rank] = (acc[card.rank] || 0) + 1;
+      return acc;
   }, {});
 
-  const rankCountValues = Object.values(rankCounts);
-  const hasFourOfAKind = rankCountValues.includes(4);
-  const hasThreeOfAKind = rankCountValues.includes(3);
-  const hasPair = rankCountValues.includes(2);
-  const hasTwoPairs = rankCountValues.filter(count => count === 2).length === 2;
-
-  if (isFlush && isStraight) return hasAceHigh(hand) ? HAND_STRENGTH.royalFlush : HAND_STRENGTH.straightFlush;
-  if (hasFourOfAKind) return HAND_STRENGTH.fourOfAKind;
-  if (hasThreeOfAKind && hasPair) return HAND_STRENGTH.fullHouse;
+  const counts = Object.values(rankCounts);
+  
+  // Determine the hand strength
+  if (isFlush && isStraight) {
+      // Check for Ace-high straight flush (Royal flush)
+      return hand[4].rank === 14 && isAceLowStraight === false ? HAND_STRENGTH.royalFlush : HAND_STRENGTH.straightFlush;
+  }
+  if (counts.includes(4)) return HAND_STRENGTH.fourOfAKind;
+  if (counts.includes(3) && counts.includes(2)) return HAND_STRENGTH.fullHouse;
   if (isFlush) return HAND_STRENGTH.flush;
   if (isStraight) return HAND_STRENGTH.straight;
-  if (hasThreeOfAKind) return HAND_STRENGTH.threeOfAKind;
-  if (hasTwoPairs) return HAND_STRENGTH.twoPair;
-  if (hasPair) return HAND_STRENGTH.onePair;
+  if (counts.includes(3)) return HAND_STRENGTH.threeOfAKind;
+  if (counts.filter(count => count === 2).length === 2) return HAND_STRENGTH.twoPair; // Checks for exactly two pairs
+  if (counts.includes(2)) return HAND_STRENGTH.onePair;
   return HAND_STRENGTH.highCard;
 }
 
-// Additional helper function to check if a straight flush is a royal flush (i.e., ends with an Ace high)
-function hasAceHigh(hand) {
-  return hand.some(card => card.rank === 14);
-}
-
 export function good5CardHandRanker(hand) {
-  console.log(JSON.stringify(hand), 'hand in good5CardHandRanker');
-  const handStrength = evaluateHand(hand);
-  let description = '';
+  if (!hand || hand.length !== 5) throw new Error("Invalid hand");
 
+  const handStrength = evaluateHand(hand);
+
+  let description = "";
   switch (handStrength) {
-    case HAND_STRENGTH.royalFlush:
-      description = 'Royal Flush';
-      break;
-    case HAND_STRENGTH.straightFlush:
-      description = 'Straight Flush';
-      break;
-    case HAND_STRENGTH.fourOfAKind:
-      description = 'Four of a Kind';
-      break;
-    case HAND_STRENGTH.fullHouse:
-      description = 'Full House';
-      break;
-    case HAND_STRENGTH.flush:
-      description = 'Flush';
-      break;
-    case HAND_STRENGTH.straight:
-      description = 'Straight';
-      break;
-    case HAND_STRENGTH.threeOfAKind:
-      description = 'Three of a Kind';
-      break;
-    case HAND_STRENGTH.twoPair:
-      description = 'Two Pair';
-      break;
-    case HAND_STRENGTH.onePair:
-      description = 'One Pair';
-      break;
-    default:
-      description = `High card: ${hand[hand.length - 1].label}`;
-      break;
+      case HAND_STRENGTH.highCard:
+          description = `High card ${hand[4].rank === 14 ? 'A' : hand[4].label}`;
+          break;
+      case HAND_STRENGTH.onePair:
+          const pairRank = Object.keys(hand.reduce((acc, { rank }) => {
+              acc[rank] = (acc[rank] || 0) + 1;
+              return acc;
+          }, {})).find(rank => hand.filter(card => card.rank == rank).length === 2);
+          description = `One pair of ${pairRank == 14 ? 'A' : pairRank}s`;
+          break;
+      case HAND_STRENGTH.twoPair:
+          const pairRanks = [...new Set(hand.filter(({rank}, index, self) => 
+          self.filter(card => card.rank === rank).length === 2).map(({ rank }) => rank))].sort((a, b) => b - a);
+          description = `Two pair, ${pairRanks[0] === 14 ? 'A' : pairRanks[0]}s and ${pairRanks[1]}s`;
+          break;
+      case HAND_STRENGTH.threeOfAKind:
+          const threeKindRank = hand.find(card => hand.filter(h => h.rank === card.rank).length === 3).rank;
+          description = `Three of a kind of ${threeKindRank === 14 ? 'A' : threeKindRank}s`;
+          break;
+      case HAND_STRENGTH.straight:
+          const isAceLowStraight = hand[0].rank === 2 && hand[1].rank === 3 && hand[2].rank === 4 && hand[3].rank === 5 && hand[4].rank === 14;
+          description = isAceLowStraight 
+              ? "Straight, 5 high" 
+              : `Straight, ${hand[4].rank === 14 ? 'A' : hand[4].label} high`;
+          break;
+      case HAND_STRENGTH.flush:
+          description = `Flush, ${hand[4].rank === 14 ? 'A' : hand[4].label} high`;
+          break;
+      case HAND_STRENGTH.fullHouse:
+          const fullHouseRanks = Object.keys(hand.reduce((acc, { rank }) => {
+              acc[rank] = (acc[rank] || 0) + 1;
+              return acc;
+          }, {}));
+          const fullHouseThree = fullHouseRanks.find(rank => hand.filter(card => card.rank == rank).length === 3);
+          const fullHouseTwo = fullHouseRanks.find(rank => hand.filter(card => card.rank == rank).length === 2);
+          description = `Full house, ${fullHouseThree === 14 ? 'A' : fullHouseThree}s over ${fullHouseTwo}s`;
+          break;
+      case HAND_STRENGTH.fourOfAKind:
+          const fourKindRank = Object.keys(hand.reduce((acc, { rank }) => {
+              acc[rank] = (acc[rank] || 0) + 1;
+              return acc;
+          }, {})).find(rank => hand.filter(card => card.rank == rank).length === 4);
+          description = `Four of a kind of ${fourKindRank === 14 ? 'A' : fourKindRank}s`;
+          break;
+      case HAND_STRENGTH.straightFlush:
+          description = `Straight flush, ${hand[4].rank === 14 ? 'A' : hand[4].label} high`;
+          break;
+      case HAND_STRENGTH.royalFlush:
+          description = `Royal flush of ${hand[0].suite}`;
+          break;
   }
 
-  return {
-    hand,
-    handStrength,
-    description,
-  };
+  return { handStrength, description };
 }

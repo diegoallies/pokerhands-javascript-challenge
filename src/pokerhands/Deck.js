@@ -1,46 +1,66 @@
-import {CARD_RANKS, SUITES} from "pokerhands/HandRanker";
+export const CARD_RANKS = {
+  ACE: 14,
+  TWO: 2,
+  THREE: 3,
+  FOUR: 4,
+  FIVE: 5,
+  SIX: 6,
+  SEVEN: 7,
+  EIGHT: 8,
+  NINE: 9,
+  TEN: 10,
+  JACK: 11,
+  QUEEN: 12,
+  KING: 13,
+};
+
+export const SUITES = {
+  SPADES: "Spades",
+  DIAMONDS: "Diamonds",
+  CLUBS: "Clubs",
+  HEARTS: "Hearts",
+};
 
 function createDeck() {
+  const suits = Object.values(SUITES);
+  const labels = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
+  const ranks = Object.values(CARD_RANKS);
 
-  // Convert suites and labels to arrays appropriately
-  const suits = Object.keys(SUITES).map(key => SUITES[key]);
-  const labels = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
-  const rank = Object.keys(CARD_RANKS).map(key => CARD_RANKS[key]);
+  let deck = [];
 
-  // Generate a new deck by combining each label with each suite
-  return labels
-    .flatMap((label, i) => {
-      // Use flatMap for a one-level deep flat array result
-      return suits.map(suite => {
-        return {label, suite, rank: rank[i]}
+  for (let suit of suits) {
+    for (let i = 0; i < labels.length; i++) {
+      deck.push({
+        label: labels[i],
+        suite: suit,
+        rank: ranks[i]
       });
-    });
+    }
+  }
+  return deck;
 }
 
 export function shuffleDeck(deck) {
-  // Clone the deck array to avoid direct mutation
-  const clone = [...deck];
-  // Shuffle using Fisher-Yates Shuffle Algorithm
-  for (let x = clone.length - 1; x > 0; x--) {
-    const y = Math.floor(Math.random() * (x + 1)); // Ensure even distribution
-    [clone[x], clone[y]] = [clone[y], clone[x]]; // Swap
+  let clone = [...deck];
+  for (let i = clone.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [clone[i], clone[j]] = [clone[j], clone[i]];
   }
   return clone;
 }
 
 export function createShuffledDeck() {
-  // Create a new deck and shuffle it
   return shuffleDeck(createDeck());
 }
 
-// Implemented Task 1 - Picking from the Deck
 export function pick(deck, pickCount) {
-  // Ensure we don't pick more than the deck length
-  pickCount = Math.min(deck.length, pickCount);
+  if (pickCount > deck.length) {
+    throw new Error("Cannot pick more cards than are in the deck.");
+  }
 
-  // Split the deck into the part that will be picked and the remaining
   const pickedCards = deck.slice(0, pickCount);
   const remainingDeck = deck.slice(pickCount);
 
+  // Return the picked cards and the remaining deck
   return [pickedCards, remainingDeck];
 }
