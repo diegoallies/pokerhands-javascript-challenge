@@ -1,20 +1,23 @@
+// In useDeck.js
 import {useCallback, useState} from "react";
 import {createShuffledDeck, pick} from "pokerhands/Deck";
 
 export function useDeck() {
-  const [deck, setDeck] = useState(undefined)
-  const [hand, setHand] = useState(undefined)
+  const [deck, setDeck] = useState(createShuffledDeck()) // Initialize with a shuffled deck
+  const [playerHand, setPlayerHand] = useState([])
+  const [aiHand, setAiHand] = useState([])
 
   const shuffleDeck = useCallback(() => {
     setDeck(createShuffledDeck())
-  }, [setDeck])
+  }, [])
 
   const deal = useCallback(() => {
-    const [newHand, remainingDeck] = pick(deck, 5)
+    const [newPlayerHand, deckAfterPlayer] = pick(deck, 5)
+    const [newAIHand, remainingDeck] = pick(deckAfterPlayer, 5)
     setDeck(remainingDeck)
-    setHand(newHand)
-  }, [setDeck, setHand, deck])
+    setPlayerHand(newPlayerHand)
+    setAiHand(newAIHand)
+  }, [deck])
 
-  return [deck, hand, shuffleDeck, deal]
+  return [deck, playerHand, aiHand, shuffleDeck, deal]
 }
-
