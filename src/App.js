@@ -60,19 +60,28 @@ function App() {
 
   return (
     <div className="App">
-      <div className="game-area">
+      <header className="game-header">
+        <h1>Poker Hands Showdown</h1>
         <Deck deck={deck} />
-        <Hand title="Player Hand" hand={playerHand} />
-        <HandRank handRank={playerHandRank} />
-        <Hand title="AI Hand" hand={aiHand} />
-        <HandRank handRank={aiHandRank} />
-        <div className="controls">
-          <button onClick={shuffleDeck}>Shuffle Deck</button>
-          <button onClick={handleDeal}>Deal</button>
-          <button onClick={handleRankHands}>Rank Hands</button>
-          <button onClick={determineWinner}>Determine Winner</button>
-        </div>
         {winner && <div className="winner-announcement">{winner}</div>}
+      </header>
+      <div className="game-table">
+        <div className="player-zone">
+          <h2>Player</h2>
+          <Hand title="Your Hand" hand={playerHand} />
+          <HandRank handRank={playerHandRank} />
+        </div>
+        <div className="player-zone">
+          <h2>AI Opponent</h2>
+          <Hand title="AI Hand" hand={aiHand} />
+          <HandRank handRank={aiHandRank} />
+        </div>
+        <div className="game-controls">
+          <button className="btn" onClick={shuffleDeck}>Shuffle</button>
+          <button className="btn" onClick={handleDeal}>Deal</button>
+          <button className="btn" onClick={handleRankHands}>Rank Hands</button>
+          <button className="btn" onClick={determineWinner}>Find Winner</button>
+        </div>
       </div>
     </div>
   );
