@@ -1,7 +1,9 @@
+/* General styles */
 .App {
   text-align: center;
   font-family: 'Arial', sans-serif;
-  background-image: url('/pokerbg.jpg');
+  background-image: linear-gradient(to bottom, rgba(20, 20, 20, 0.9), rgba(20, 20, 20, 0.7)), url('/pokerbg.jpg');
+  background-attachment: fixed;
   background-size: cover;
   color: #fff;
   min-height: 100vh;
@@ -9,40 +11,72 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.5s ease;
 }
 
 .game-area, .start-game-screen {
-  background-color: rgba(0, 0, 0, 0.7); /* Slightly darker for better readability */
-  padding: 30px;  /* Increased padding */
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 30px;
   border-radius: 20px;
   margin: 2em;
   display: flex;
-  flex-direction: column; /* Changed for better layout control */
-  align-items: center; /* Aligns children centrally */
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease-out;
 }
 
-/* The existing card hover effect */
+/* Enhancing card hover effect */
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
+  transition: transform 0.2s ease-in-out;
   z-index: 10;
 }
 
+/* Button styles */
 button {
   margin: 0.5em;
-  padding: 10px 20px;
-  background-color: #4CAF50; /* Greener, more inviting color */
+  padding: 10px 30px;
+  background-image: linear-gradient(to bottom, #4CAF50, #397d3a);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight: bold; /* Make text bold */
+  font-weight: bold;
+  outline: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
 }
 
 button:hover, button:focus {
-  background-color: #45a049; /* Darker shade on hover/focus */
+  background-image: linear-gradient(to bottom, #45a049, #366e33);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
+button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Card styles */
 .card {
+  width: 150px;
+  height: 214px;
+  margin: 10px;
+  display: inline-block;
+  background-image: url('https://i.imgur.com/yKggR5N.png'); /* Card sprite */
+  border-radius: 10px;
+  background-position-x: 0px;
+  background-position-y: center;
+  background-repeat: none;
+  background-position: middle center; 
+  box-shadow: 4px 4px 20px 0px rgba(0, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease-in-out;
+  box-sizing: border-box; 
+}
+
+/* .card {
   box-sizing: border-box;  
   width: 150px;
   height: 214px;
@@ -58,25 +92,24 @@ button:hover, button:focus {
   border-radius: 10px;
     -webkit-box-shadow: 2px 2px 3px 0px #000000; 
   box-shadow: 2px 2px 3px 0px #000000; 
-  }
+  } */
 
+
+
+/* Information and placeholders */
 .deck-info, .hand-info, .hand-rank-info, .start-game-screen {
-  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px 25px;
   margin: 1em 0;
-  text-align: center; /* Center-align text */
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .placeholder {
   color: #ccc;
 }
 
-.winner-announcement {
-  margin-top: 20px;
-  font-size: 1.5em; /* Larger font for emphasis */
-  font-weight: bold;
-  color: #FFFF00; /* Bright color for visibility */
-}
-
+/* Responsive media queries */
 @media (max-width: 768px) {
   .game-area, .start-game-screen {
     width: 90%;
@@ -84,18 +117,18 @@ button:hover, button:focus {
   }
 
   .card {
-    width: 55px; /* Adjust sizes for mobile */
-    height: 74px;
+    width: 90px;
+    height: 128px;
   }
 
   .hand-info, .deck-info {
-    flex-direction: column; /* Stack on smaller screens for better readability */
+    flex-direction: column;
   }
 }
 
-
+/* Controls and animations */
 .game-header, .player-zone, .game-controls, .winner-announcement {
-  margin-bottom: 15px; /* Consistent spacing */
+  margin-bottom: 15px;
 }
 
 .game-header h1, .player-zone h2 {
@@ -104,28 +137,33 @@ button:hover, button:focus {
   border-bottom: 2px solid #fff;
 }
 
-.hand-info, .deck-info, .hand-rank-info, .start-game-screen, .winner-announcement {
-  background: rgba(255, 255, 255, 0.1); /* Slight background for legibility */
-  padding: 10px 20px;
-  margin: 1em 0;
-  border-radius: 5px;
-}
-
 .winner-announcement {
-  font-size: 2em; /* Larger font size for winner announcement */
-  color: #ffd700; /* Adjust color for visibility */
+  font-size: 2em;
+  color: #ffd700;
   font-weight: bold;
+  animation: pulse 1s infinite alternate;
 }
 
-/* Media Query */
-@media (max-width: 768px) {
-  /* Updated styles for responsiveness within the media query */
-  .game-area, .start-game-screen {
-    padding: 10px;
+@keyframes pulse {
+  from {
+    transform: scale(1.0);
+    opacity: 1.0;
   }
+  to {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
 
-  .card {
-    width: 90px; /* Adjust card sizes for medium screens */
-    height: 128px;
-  }
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.controls button {
+  flex: 1 1 auto; /* Adjust button widths automatically */
+  max-width: 150px; /* Maximum width for each button */
+  padding: 10px 15px;
 }
