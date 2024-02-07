@@ -1,56 +1,95 @@
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState } from "react";
 import './App.css';
 import { useDeck } from "./hooks/useDeck";
 import { useHandRanker } from "./hooks/useHandRanker";
 
 function App() {
-  const [deck, hand, shuffleDeck, deal] = useDeck();
-  const [handRank, rankHand] = useHandRanker();
+  const [deck, playerHand, aiHand, shuffleDeck, deal] = useDeck(); // Adjust `useDeck` for AI's hand.
+  const [playerHandRank, rankPlayerHand] = useHandRanker();
+  const [aiHandRank, rankAIHand] = useHandRanker();
   const [gameStarted, setGameStarted] = useState(false);
+  const [winner, setWinner] = useState('');
 
   const handleStartGame = () => {
-
     setGameStarted(true);
     shuffleDeck();
+  };
 
+  const handleDeal = () => {
+    if (!deck || deck.length < 10) { // Ensuring enough cards for both player and AI.
+      alert("Not enough cards in the deck to deal.");
+    } else {
+      deal(); // Assume `deal` updates both playerHand and aiHand.
+      // Reset previous result
+      setWinner('');
+    }
+  };
+
+  // New function to trigger hand ranking
+  const handleRankHands = () => {
+    rankPlayerHand(playerHand);
+    rankAIHand(aiHand);
+  };
+
+  const determineWinner = () => {
+    if (!playerHandRank || !aiHandRank) {
+      alert("Both hands need to be ranked first.");
+      return;
+    }
+    
+    // Assuming higher handStrength value indicates the better hand.
+    if (playerHandRank.handStrength > aiHandRank.handStrength) {
+      setWinner("Player Wins!");
+    } else if (playerHandRank.handStrength < aiHandRank.handStrength) {
+      setWinner("AI Wins!");
+    } else {
+      setWinner("It's a tie!");
+    }
   };
 
   if (!gameStarted) {
     return (
       <div className="App">
         <div className="start-game-screen">
-        <div className="welcome-banner">Welcome to Poker Hands!</div>
-        <br></br>
+          <div className="welcome-banner">Welcome to Poker Hands!</div>
           <button onClick={handleStartGame}>Start Game</button>
         </div>
       </div>
     );
   }
 
-  const handleDealButtonClick = () => {
-    if (deck.length < 5) {
-        alert("Not enough cards in the deck to deal.");
-    } else {
-        deal();
-    }
-};
-
   return (
     <div className="App">
       <div className="game-area">
-      <Deck deck={deck} />
-      <Hand hand={hand} />
-      <HandRank handRank={handRank} />
-      <div className="controls">
+        <Deck deck={deck} />
+        <Hand title="Player Hand" hand={playerHand} />
+        <HandRank handRank={playerHandRank} />
+        <Hand title="AI Hand" hand={aiHand} />
+        <HandRank handRank={aiHandRank} />
+        <div className="controls">
           <button onClick={shuffleDeck}>Shuffle Deck</button>
-          {/* Update onClick to use handleDealButtonClick */}
-          <button onClick={handleDealButtonClick}>Deal</button>
-          <button onClick={() => rankHand(hand)}>Rank Hand</button>
+          <button onClick={handleDeal}>Deal</button>
+          <button onClick={handleRankHands}>Rank Hands</button>
+          <button onClick={determineWinner}>Determine Winner</button>
+        </div>
+        {winner && <div className="winner-announcement">{winner}</div>}
       </div>
-  </div>
     </div>
   );
 }
+
 
 function Deck({deck}) {
   return (
@@ -78,13 +117,6 @@ function Hand({hand}) {
   );
 }
 
-function HandRank({handRank}) {
-  return (
-    <div className="hand-rank-info">
-      {handRank ? `Hand rank: ${handRank.description}` : <div className="placeholder">Hand not ranked</div>}
-    </div>
-  );
-}
 
 function Card({ card }) {
   const calculateBackgroundPosition = () => {
@@ -105,74 +137,12 @@ function Card({ card }) {
     <div className="card" style={{ backgroundPosition: calculateBackgroundPosition() }}></div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function Card({ card }) {
-//   const calculateBackgroundPosition = () => {
-//     const suitOrder = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
-//     const valueOrder = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
-
-//     // Adjust these indices for case-sensitive comparison
-//     const cardValueIndex = valueOrder.indexOf(card.label);
-//     const suitIndex = suitOrder.indexOf(card.suite);
-
-//     const cardWidth = 150; // Assuming each card's width in pixels in your sprite sheet.    
-//     // The first blank card offsets all other cards by one position.
-//     // Adjusting calculation to skip over the first blank card space.
-//     // Adding '+1' inside the calculation to offset by a single card's width.
-//     const xPosition = -((cardValueIndex + 1) * cardWidth);
-
-//     return `${xPosition}px center`;
-//   };
-
-//   return (
-//     <div className="card" style={{ backgroundPosition: calculateBackgroundPosition(), backgroundRepeat: 'no-repeat', width: '150px', height: '200px' }}></div>
-//   );
-// }
-
-// function Card({ card }) {
-//   const calculateBackgroundPosition = () => {
-//     const suitOrder = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
-//     const valueOrder = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
-
-//     // Find index for the card's value and suit. These indexes are zero-based.
-//     const cardValueIndex = valueOrder.indexOf(card.label);
-//     const suitIndex = suitOrder.indexOf(card.suite);
-
-//     // Find the overall index of the card, considering all suits are placed sequentially.
-//     // Remember, the sequence in the sprite sheet starts with a blank spot, then follows with all the hearts, diamonds, clubs, and spades.
-//     const cardsPerSuit = valueOrder.length; // Number of cards per suit.
-//     const overallIndex = suitIndex * cardsPerSuit + cardValueIndex; 
-
-//     const cardWidth = 150; // Assuming each card's width.
-//     // Calculate the x-position. We add '+1' because of the initial blank card at the start of the sprite sheet.
-//     const xPosition = -((overallIndex + 1) * cardWidth);
-
-//     return `${xPosition}px center`; // y-position is 0px since we're dealing with a horizontal layout.
-//   };
-
-//   return (
-//     <div className="card" style={{ backgroundPosition: calculateBackgroundPosition(), backgroundRepeat: 'no-repeat', width: '150px', height: '200px' }}>
-//   </div>
-//   );
-// }
-
+function HandRank({ handRank }) {
+  return (
+    <div className="hand-rank-info">
+      {handRank ? `Hand rank: ${handRank.description}` : <div className="placeholder">Hand not ranked</div>}
+    </div>
+  );
+}
 
 export default App;
