@@ -23,7 +23,7 @@ export const SUITES = {
 
 function createDeck() {
   const suits = Object.values(SUITES);
-  const labels = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"];
+  const labels = ["Ace" ,"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", ];
   const ranks = Object.values(CARD_RANKS);
 
   let deck = [];

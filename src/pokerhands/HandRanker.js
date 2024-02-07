@@ -73,6 +73,7 @@ function evaluateHand(hand) {
 }
 
 export function good5CardHandRanker(hand) {
+  console.log(JSON.stringify(hand), 'this is hand inside good5CardHandRanker function')
   if (!hand || hand.length !== 5) throw new Error("Invalid hand");
 
   const handStrength = evaluateHand(hand);
