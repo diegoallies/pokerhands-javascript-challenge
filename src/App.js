@@ -12,44 +12,47 @@ function App() {
       <div className="welcome-banner">
         Welcome to Poker Hands!
       </div>
-      <Deck {...{deck}}/>
-      <Hand {...{hand}}/>
-      <HandRank {...{handRank}} />
+      <Deck deck={deck}/>
+      <Hand hand={hand}/>
+      <HandRank handRank={handRank}/>
       <div className="controls">
         <button onClick={shuffleDeck}>Create Deck</button>
         <button onClick={deal}>Deal</button>
-        <button onClick={() => {rankHand(hand)}}>Rank Hand</button>
+        <button onClick={() => rankHand(hand)}>Rank Hand</button>
       </div>
     </div>
   )
 }
 
 function Deck({deck}) {
-  if (!deck) return null
   return (
     <div className="deck-info">
-      Number of cards in the deck: {deck.length}
+      {deck ? `Number of cards in the deck: ${deck.length}` : <div className="placeholder">Deck not created</div>}
     </div>
   )
 }
 
 function Hand({hand}) {
-  if (!hand) return null
   return (
     <div className="hand-info">
-      Number of cards in the hand: {hand.length}
-      <div className="card-container">
-        {hand.map(card => <Card key={`${card.label}-${card.suite}`} card={card}/>)}
-      </div>
+      {hand && hand.length > 0 ? (
+        <>
+          Number of cards in the hand: {hand.length}
+          <div className="card-container">
+            {hand.map(card => <Card key={`${card.label}-${card.suite}`} card={card}/>)}
+          </div>
+        </>
+      ) : (
+        <div className="placeholder">No cards dealt</div>
+      )}
     </div>
   )
 }
 
 function HandRank({handRank}) {
-  if (!handRank) return null
   return (
     <div className="hand-rank-info">
-      Hand rank: {handRank.description}
+      {handRank ? `Hand rank: ${handRank.description}` : <div className="placeholder">Hand not ranked</div>}
     </div>
   )
 }
