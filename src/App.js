@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css'
-import {useDeck} from "hooks/useDeck"
-import {useHandRanker} from "hooks/useHandRanker"
+import { useDeck } from "hooks/useDeck"
+import { useHandRanker } from "hooks/useHandRanker"
 
 function App() {
   const [deck, hand, shuffleDeck, deal] = useDeck()
@@ -9,15 +9,17 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        Welcome to Poker hands!
+      <div className="welcome-banner">
+        Welcome to Poker Hands!
       </div>
       <Deck {...{deck}}/>
       <Hand {...{hand}}/>
       <HandRank {...{handRank}} />
-      <button onClick={shuffleDeck}>Create deck</button>
-      <button onClick={deal}>Deal</button>
-      <button onClick={() => {rankHand(hand)}}>Rank Hand</button>
+      <div className="controls">
+        <button onClick={shuffleDeck}>Create Deck</button>
+        <button onClick={deal}>Deal</button>
+        <button onClick={() => {rankHand(hand)}}>Rank Hand</button>
+      </div>
     </div>
   )
 }
@@ -25,7 +27,7 @@ function App() {
 function Deck({deck}) {
   if (!deck) return null
   return (
-    <div>
+    <div className="deck-info">
       Number of cards in the deck: {deck.length}
     </div>
   )
@@ -34,10 +36,10 @@ function Deck({deck}) {
 function Hand({hand}) {
   if (!hand) return null
   return (
-    <div>
+    <div className="hand-info">
       Number of cards in the hand: {hand.length}
-      <div>
-        {hand.map(card => <Card key={`${card.label}-${card.suite}`} {...{card}}/>)}
+      <div className="card-container">
+        {hand.map(card => <Card key={`${card.label}-${card.suite}`} card={card}/>)}
       </div>
     </div>
   )
@@ -46,7 +48,7 @@ function Hand({hand}) {
 function HandRank({handRank}) {
   if (!handRank) return null
   return (
-    <div>
+    <div className="hand-rank-info">
       Hand rank: {handRank.description}
     </div>
   )
@@ -54,9 +56,16 @@ function HandRank({handRank}) {
 
 function Card({card}) {
   if (!card) return null
+  const suitSymbols = {
+    diamonds: '♦️',
+    clubs: '♣️',
+    hearts: '♥️',
+    spades: '♠️',
+  };
+  const suitColor = ['diamonds', 'hearts'].includes(card.suite) ? 'red' : 'black';
   return (
-    <div>
-      {card.label}
+    <div className={`card ${suitColor}`}>
+      {card.label} {suitSymbols[card.suite]}
     </div>
   )
 }

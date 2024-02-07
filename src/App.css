@@ -1,4 +1,42 @@
 .App {
   text-align: center;
+  font-family: Arial, sans-serif;
 }
 
+.welcome-banner {
+  font-size: 24px;
+  margin: 20px 0;
+}
+
+.controls button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.deck-info, .hand-info, .hand-rank-info {
+  margin-top: 20px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.red {
+  color: #D42727;
+}
+
+.black {
+  color: #333;
+}
