@@ -19,25 +19,35 @@ function App() {
     return (
       <div className="App">
         <div className="start-game-screen">
+        <div className="welcome-banner">Welcome to Poker Hands!</div>
+        <br></br>
           <button onClick={handleStartGame}>Start Game</button>
         </div>
       </div>
     );
   }
 
+  const handleDealButtonClick = () => {
+    if (deck.length < 5) {
+        alert("Not enough cards in the deck to deal.");
+    } else {
+        deal();
+    }
+};
+
   return (
     <div className="App">
       <div className="game-area">
-        <div className="welcome-banner">Welcome to Poker Hands!</div>
-        <Deck deck={deck} />
-        <Hand hand={hand} />
-        <HandRank handRank={handRank} />
-        <div className="controls">
+      <Deck deck={deck} />
+      <Hand hand={hand} />
+      <HandRank handRank={handRank} />
+      <div className="controls">
           <button onClick={shuffleDeck}>Shuffle Deck</button>
-          <button onClick={deal}>Deal</button>
+          {/* Update onClick to use handleDealButtonClick */}
+          <button onClick={handleDealButtonClick}>Deal</button>
           <button onClick={() => rankHand(hand)}>Rank Hand</button>
-        </div>
       </div>
+  </div>
     </div>
   );
 }
