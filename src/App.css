@@ -156,8 +156,8 @@ button:active {
   }
 
   .card {
-    width: calc(25vw - 10px); /* Use viewport width to determine size with some margin */
-    height: calc((25vw - 10px) * 1.4); /* Calculate height based on aspect ratio of 1:1.4 (width:height) */
+    width: calc(5vw - 1px); /* Use viewport width to determine size with some margin */
+    height: calc((5vw - 1px) * 1.4); /* Calculate height based on aspect ratio of 1:1.4 (width:height) */
     margin: 5px;
     background-size: cover; /* Ensure background image covers the entire element */
     background-position: center; /* Center the card image */
@@ -191,11 +191,11 @@ button:active {
 /* Even more specific tweaks for smaller (phone-sized) screens */
 @media (max-width: 480px) {
   .card {
-    width: calc(33vw - 10px); /* Increase the card width to fit three cards per row */
-    height: calc((33vw - 10px) * 1.4); /* Adjust the card height based on the new width */
+    width: calc(18vw - 10px); /* Increase the card width to fit three cards per row */
+    height: calc((18vw - 2px) * 1.4); /* Adjust the card height based on the new width */
   }
 
   .card-container {
-    grid-template-columns: repeat(auto-fill, minmax(calc(33vw - 10px), 1fr)); /* Update grid to have a minimum of three cards per row */
+    grid-template-columns: repeat(auto-fill, minmax(calc(18vw - 10px), 1fr)); /* Update grid to have a minimum of three cards per row */
   }
 }
