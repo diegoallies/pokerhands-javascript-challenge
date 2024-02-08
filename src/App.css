@@ -12,21 +12,28 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.5s ease;
+  font-family: 'Montserrat', sans-serif; /* More modern font */
+  /* background-image: linear-gradient(to bottom right, #093637, #44A08D); Updated gradient */
+  color: #FBFBFB; /* Brighter text for better readability */
 }
 
 .game-area, .start-game-screen {
-  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: rgba(0, 0, 0, 0.7); */
   padding: 30px;
   border-radius: 20px;
   margin: 2em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); */
   transition: transform 0.3s ease-out;
+  background-color: rgba(255, 255, 255, 0.85); /* Lighter background for better contrast */
+  /* color: #333; Darker text for readability */
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* Enhancing card hover effect */
 .card:hover {
   transform: scale(1.2);
   transition: transform 0.2s ease-in-out;
@@ -49,18 +56,19 @@ button {
 }
 
 button:hover, button:focus {
-  background-image: linear-gradient(to bottom, #45a049, #366e33);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 button:active {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
 }
 
 /* Card styles */
 .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow; /* Ensuring smoother animations */
   width: 150px;
   height: 214px;
   margin: 10px;
@@ -86,5 +94,27 @@ button:active {
 }
 
 .placeholder {
-  color: #ccc;
+  color: #FFD194; /* More noticeable placeholder text */
+}
+
+
+/* Adding animations for entering components */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-area, .start-game-screen, .card, button {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* This is critical for large-scale animations and transformations */
+body {
+  overflow-x: hidden; /* Avoid horizontal scroll on small transform/animation */
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './App.css';
+import './App.scss';
 import { useDeck } from "./hooks/useDeck";
 import { useHandRanker } from "./hooks/useHandRanker";
 

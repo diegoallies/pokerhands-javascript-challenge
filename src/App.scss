@@ -1,0 +1,110 @@
+$primary-color: #FBFBFB; // Brighter text for better readability
+$hover-dark-shadow: rgba(0, 0, 0, 0.3);
+$active-shadow: rgba(0, 0, 0, 0.2);
+$placeholder-color: #b62a59; // Updated for better contrast
+$light-bg-color: rgba(255, 255, 255, 0.85); // Lighter background for better contrast
+$text-color: #ffffff; // White color for better visibility against the greenish background
+
+.App {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  background-image: url('/bg.jpg'); // Ensure correct path to your bg image
+  background-attachment: fixed;
+  background-size: cover;
+  color: $primary-color;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.5s ease;
+
+  .game-area, .start-game-screen {
+    padding: 40px;
+    border-radius: 25px;
+    margin: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+    background-color: $light-bg-color;
+  }
+
+  * {
+    color: $text-color; // Applying white color text for visibility
+    font-weight: 500; // Making fonts a bit thicker for readability
+  }
+}
+
+button {
+  margin: 0.5em;
+  padding: 10px 30px;
+  background-image: linear-gradient(to bottom, #4CAF50, #397d3a);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  outline: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+
+  &:hover, &:focus {
+    box-shadow: 0 6px 12px $hover-dark-shadow;
+    transform: translateY(-2px);
+    background-image: linear-gradient(to bottom, #4CAF50, #466f3d); // Slightly darken on hover
+  }
+
+  &:active {
+    box-shadow: 0 3px 6px $active-shadow;
+    transform: translateY(1px);
+  }
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+  width: 150px;
+  height: 214px;
+  margin: 10px;
+  display: inline-block;
+  background-image: url('https://i.imgur.com/yKggR5N.png'); // Card sprite
+  border-radius: 10px;
+  background-position: center; 
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.5);
+
+  // Fixing the card hover effect to enlarge smoothly
+  &:hover {
+    transform: translateY(-10px) scale(1.05); // Increasing scale for noticeable effect
+    box-shadow: 0 12px 24px $hover-dark-shadow;
+  }
+}
+
+// Information and placeholders
+.deck-info, .hand-info, .hand-rank-info, .start-game-screen {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 15px 25px;
+  margin: 1em 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  color: $placeholder-color;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-area, .start-game-screen, .card, button {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+body {
+  overflow-x: hidden;
+}
