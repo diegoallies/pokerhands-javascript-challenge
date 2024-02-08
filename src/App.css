@@ -147,66 +147,55 @@ button:active {
   max-width: 150px; /* Maximum width for each button */
   padding: 10px 15px;
 }
-
 /* Responsive media queries */
 @media (max-width: 768px) {
   .game-area, .start-game-screen {
-    width: 95%;
-    padding: 20px 10px;
+    width: 100%;
+    padding: 20px;
     margin: 1em auto;
   }
 
-  .controls {
-    display: block; /* Stack the buttons vertically on smaller screens */
-  }
-
-  .controls button {
-    width: 100%; /* Full width buttons for easier touch */
-    margin: 10px 0; /* Add space between stacked buttons */
-  }
-
-  /* Card sizes must maintain aspect ratio */
   .card {
-    width: 65px; /* Adjusted card width for mobile */
-    height: 100px; /* Adjusted card height to maintain aspect ratio */
-    margin: 5px; /* Smaller margin on mobile */
-    background-size: cover; /* Cover will fill the card while maintaining aspect ratio */
-    background-position: center; /* Center the background image */
+    width: calc(25vw - 10px); /* Use viewport width to determine size with some margin */
+    height: calc((25vw - 10px) * 1.4); /* Calculate height based on aspect ratio of 1:1.4 (width:height) */
+    margin: 5px;
+    background-size: cover; /* Ensure background image covers the entire element */
+    background-position: center; /* Center the card image */
   }
 
   .card-container {
-    display: grid; /* Use a grid layout for cards */
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); /* Create as many card columns as can fit in the space */
-    justify-items: center; /* Center cards in the grid cells */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(calc(25vw - 10px), 1fr)); /* Set card width relative to viewport width */
     grid-gap: 5px; /* Space between cards */
   }
 
-  .winner-announcement {
-    font-size: 1.5em; /* Smaller font for winner announcement */
+  /* Adjust button sizes for better touch interaction */
+  .controls button {
+    width: auto;
+    padding: 12px;
+    margin: 10px;
+    font-size: 4vw; /* Scale font size based on viewport width */
   }
 
+  /* Adjust the winner announcement for smaller screens */
+  .winner-announcement {
+    font-size: 5vw; /* Smaller font for winner announcement */
+  }
+
+  /* Scale down font sizes for info displays */
   .hand-info, .deck-info, .hand-rank-info {
-    font-size: 0.8em; /* Reduce the font size for informational text */
+    font-size: 4vw;
   }
 }
 
-/* Additional responsiveness for very small devices */
+/* Even more specific tweaks for smaller (phone-sized) screens */
 @media (max-width: 480px) {
-  .card-container {
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Smaller card columns for very small devices */
-  }
-
   .card {
-    width: 60px; /* Narrower cards for very small devices */
-    height: 84px; /* Height adjusted to maintain aspect ratio */
+    width: calc(33vw - 10px); /* Increase the card width to fit three cards per row */
+    height: calc((33vw - 10px) * 1.4); /* Adjust the card height based on the new width */
   }
 
-  .controls button {
-    padding: 8px 10px; /* Reduce button padding on very small devices */
-    font-size: 0.8em; /* Reduce button font size for better fit */
-  }
-
-  .game-header h1, .player-zone h2 {
-    font-size: 1.2em; /* Slightly smaller headers for very small devices */
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(calc(33vw - 10px), 1fr)); /* Update grid to have a minimum of three cards per row */
   }
 }
