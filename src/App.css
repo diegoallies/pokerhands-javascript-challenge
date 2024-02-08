@@ -88,3 +88,14 @@ button:active {
 .placeholder {
   color: #ccc;
 }
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Applying the fade-in animation to elements */
+.game-area, .start-game-screen, .deck-info, .hand-info, .hand-rank-info, .card, .placeholder {
+  animation: fadeIn 1s ease-out;
+}
