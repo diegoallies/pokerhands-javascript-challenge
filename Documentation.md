@@ -58,14 +58,32 @@ This project simulates a simplified poker game where a user competes against an 
 *   **handleRankHands():** Leverages `useHandRanker` to assess hands.
 *   **determineWinner():** Simple comparison logic using `handStrength` values in hand rank objects.
 
-**UI Elements (JSX):**
 
-*   Visual representations of the deck, player/AI hands, hand rankings, and game controls.
+**General Styles**
 
-**... (rest of your modules)** 
+* Sets overall text alignment, background image, gradient, transitions, and font settings.
+* Ensures the app uses a readable color scheme on a dynamic poker-themed background.
 
-## Considerations
+**Game Area Styling**
 
-*   **Card Display:** Describe how cards are visually represented (images, CSS styling, etc.).
-*   **Game Loop:**  Outline the flow of the game (rounds, betting, potential expansion?).
-*   **Error Handling:**  Detail any error handling strategies used.
+* Provides consistent background, padding, and borders for active gameplay (`game-area`) or the initial state (`start-game-screen`).
+* Adds subtle shadows and visual transitions when these elements are hovered over.
+
+**Button Styles**
+
+* Creates visually appealing buttons with gradients, hover effects, and transitions.
+* Enhances usability with hover effects that suggest interactivity.
+
+**Card Styles**
+
+* Provides visual representation of individual playing cards, likely implemented using a background image sprite sheet.
+* Includes a hover effect to give cards a 'lift' when the user interacts with them. 
+
+**Information and Placeholders**
+
+* Adds subtle backgrounds and padding to sections displaying deck information, hand details, and rankings.
+* 'Placeholder' class styles text used before game state elements are populated.
+
+**Animations**
+
+* Uses a `fadeIn` animation keyframe to create a smooth visual transition as gameplay elements appear on screen.
